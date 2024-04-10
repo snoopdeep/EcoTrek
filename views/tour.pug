@@ -1,0 +1,141 @@
+extends base 
+//- USING MIXIN to reduce reuse code...
+mixin overviewBox(label,text,icon)
+    svg.overview-box__icon
+        use(xlink:href=`/img/icons.svg#icon-${icon}`)
+    span.overview-box__label= label
+    span.overview-box__text= text
+
+
+block content 
+    section.section-header
+        .header__hero
+            .header__hero-overlay &nbsp;
+            img.header__hero-img(src=`/img/tours/${tour.imageCover}`, alt=`${tour.name}`)
+
+        .heading-box
+            h1.heading-primary
+                span= `${tour.name} tour`
+            .heading-box__group
+                .heading-box__detail
+                    svg.heading-box__icon
+                    use(xlink:href='/img/icons.svg#icon-clock')
+                    span.heading-box__text=`${tour.duration} days`
+                .heading-box__detail
+                    svg.heading-box__icon
+                    use(xlink:href='/img/icons.svg#icon-map-pin')
+                    span.heading-box__text= tour.startLocation.description
+
+    section.section-description
+        .overview-box
+            div
+                .overview-box__group
+                    h2.heading-secondary.ma-bt-lg Quick facts
+                    .overview-box__detail
+                        -const date=tour.startDates[0].toLocaleString('en-us',{month:'long',year:'numeric'})
+                        +overviewBox('Next date',date,'calendar')
+                        //- svg.overview-box__icon
+                        //-     use(xlink:href='/img/icons.svg#icon-calendar')
+                        //- span.overview-box__label Next date
+                        //- span.overview-box__text= tour.startDates[0].toLocaleString('en-us',{month:'long',year:'numeric'})
+                    .overview-box__detail
+                        +overviewBox('Difficulty',tour.difficulty,'trending-up')
+                        //- svg.overview-box__icon
+                        //-     use(xlink:href='/img/icons.svg#icon-trending-up')
+                        //- span.overview-box__label Difficulty
+                        //- span.overview-box__text= tour.difficulty
+                    .overview-box__detail
+                        +overviewBox('Participants',`${tour.maxGroupSize} People`,'user')
+                        //- svg.overview-box__icon
+                        //-     use(xlink:href='/img/icons.svg#icon-user')
+                        //- span.overview-box__label Participants
+                        //- span.overview-box__text=`${tour.maxGroupSize} People`
+                    .overview-box__detail
+                        +overviewBox('Rating',`${tour.ratingsAverage} / 5`,'star')
+                        //- svg.overview-box__icon
+                        //-     use(xlink:href='/img/icons.svg#icon-star')
+                        //- span.overview-box__label Rating
+                        //- span.overview-box__text=`${tour.ratingsAverage} / 5`
+
+                .overview-box__group
+                    h2.heading-secondary.ma-bt-lg Your tour guides
+                    for guide in tour.guides
+                        .overview-box__detail
+                            img.overview-box__img(src=`/img/users/${guide.photo}`, alt=`${guide.name}`)
+                            -if(guide.role==='lead-guide')
+                                span.overview-box__label Lead guide
+                            -if(guide.role==='guide')
+                                span.overview-box__label Tour guide    
+                            span.overview-box__text= `${guide.name}`
+                    //- .overview-box__detail
+                    //-     img.overview-box__img(src='/img/users/user-18.jpg', alt='Tour guide')
+                    //-     span.overview-box__label Tour guide
+                    //-     span.overview-box__text Lisa Brown
+                    //- .overview-box__detail
+                    //-     img.overview-box__img(src='/img/users/user-17.jpg', alt='Intern')
+                    //-     span.overview-box__label Intern
+                    //-     span.overview-box__text Max Smith
+
+        .description-box
+            h2.heading-secondary.ma-bt-lg= `About ${tour.name} tour`
+            - const paragraphs =tour.description.split('\n');
+            for p in paragraphs 
+                p.description__text=p
+            //- p.description__text= paragraph[0]
+            //- p.description__text= paragraph[1]                    
+
+    section.section-pictures
+        each img, i in tour.images 
+            .picture-box
+                img.picture-box__img(src=`/img/tours/${img}`, alt=`The Park Camper Tour ${i+1}`,class=`picture-box__img--${i+1}`)
+        //- class name also have numbering so we define it seperate so that we can use string literral
+        //- .picture-box
+        //-     img.picture-box__img.picture-box__img--1(src='/img/tours/tour-5-1.jpg', alt='The Park Camper Tour 1')
+        //- .picture-box
+        //-     img.picture-box__img.picture-box__img--2(src='/img/tours/tour-5-2.jpg', alt='The Park Camper Tour 1')
+        //- .picture-box
+        //-     img.picture-box__img.picture-box__img--3(src='/img/tours/tour-5-3.jpg', alt='The Park Camper Tour 1')
+
+    section.section-map
+        // d
+        #map(data-locations=`${JSON.stringify(tour.locations)}`)
+
+
+    section.section-reviews
+        .reviews
+            for review in tour.review
+                //- WE CAN DO WITH MIXIN TOO
+                .reviews__card
+                    .reviews__avatar
+                        img.reviews__avatar-img(src=`/img/users/${review.user.photo}`, alt=`${review.user.name}`)
+                        h6.reviews__user= `${review.user.name}`
+                    p.reviews__text= review.review
+                    .reviews__rating
+                        //- add reviews__star--active class to 3 starts if review.rating is 3
+                        each star in [1,2,3,4,5]
+                            -const className = star <= review.rating ? "reviews__star--active" : "reviews__star--inactive";
+                                svg.reviews__star(class=className)
+                                    use(xlink:href='/img/icons.svg#icon-star')
+                                //- svg.reviews__star.reviews__star--active
+                                //-     use(xlink:href='/img/icons.svg#icon-star')
+                                //- svg.reviews__star.reviews__star--active
+                                //-     use(xlink:href='/img/icons.svg#icon-star')
+                                //- svg.reviews__star.reviews__star--active
+                                //-     use(xlink:href='/img/icons.svg#icon-star')
+                                //- svg.reviews__star.reviews__star--active
+                                //-     use(xlink:href='/img/icons.svg#icon-star')
+        
+
+    section.section-cta
+        .cta
+            .cta__img.cta__img--logo
+                img(src='/img/logo-white.png', alt='Natours logo')
+            img.cta__img.cta__img--1(src=`/img/tours/${tour.images[1]}`, alt='')
+            img.cta__img.cta__img--2(src=`/img/tours/${tour.images[2]}`, alt='')
+            .cta__content
+                h2.heading-secondary What are you waiting for?
+                p.cta__text= `${tour.duration} days. 1 adventure. Infinite memories. Make it yours today!`
+                button.btn.btn--green.span-all-rows Book tour now! 
+
+    // atteching mapbox.js to this html so that data-locations ko access kr paun
+                                           
