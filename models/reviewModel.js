@@ -76,7 +76,7 @@ reviewSchema.statics.calAverageRatings = async function (tourId) {
         },
     ]);
     // console.log(stats);[ { _id: 5c8a1ec62f8fb814b56fa183, nRating: 5, avgRating: 2.8 } ]
-    console.log(stats);
+    // console.log(stats);
     // updating the tour with stats..
     if (stats.length > 0) {
         await Tour.findByIdAndUpdate(tourId, {

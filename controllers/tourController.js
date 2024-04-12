@@ -31,7 +31,7 @@ const multerFilter = (req, file, cb) => {
 // 3: MIDDLEWARE FOR RESIZING IMGES-> SHARP
 
 exports.resizeTourImages = async (req, res, next) => {
-    console.log(req.files);
+    // console.log(req.files);
     // if no coverimage of images=> move to next middleware
     if (!req.files.imageCover || !req.files.images) {
         return next();
@@ -68,10 +68,10 @@ exports.resizeTourImages = async (req, res, next) => {
             req.body.images.push(filename);
         })
     );
-    console.log(
-        'This is req.body form resizeTourImages middleware-> ',
-        req.body
-    );
+    // console.log(
+    //     'This is req.body form resizeTourImages middleware-> ',
+    //     req.body
+    // );
 
     next();
 };

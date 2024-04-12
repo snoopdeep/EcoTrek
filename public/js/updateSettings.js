@@ -41,12 +41,12 @@ export const updatePassword = async (
                 passwordConfirm,
             },
         });
-        console.log('This is from updateSettings.js and res is->', res);
-        console.log('Response is -> ', res.data.status);
+        // console.log('This is from updateSettings.js and res is->', res);
+        // console.log('Response is -> ', res.data.status);
         if (res.data.status === 'success') {
-            console.log(
-                'this is after successful password updation.. going to show the alert..'
-            );
+            // console.log(
+            //     'this is after successful password updation.. going to show the alert..'
+            // );
             showAlert('success', 'Password changed Successfully!');
             // reload the current user page;
             window.setInterval(() => {
@@ -54,7 +54,7 @@ export const updatePassword = async (
             }, 1000);
         }
     } catch (err) {
-        console.log('Error in updating password is..');
+        // console.log('Error in updating password is..');
         showAlert('error', err.response.data.message);
     }
 };

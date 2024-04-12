@@ -54,14 +54,14 @@ var limiter = rateLimit({
 app.use('/api', limiter); // setting up my own middleware
 
 app.use(function (req, res, next) {
-  console.log('Hello from the middleware!!!'); // console.log(x);
+  // console.log('Hello from the middleware!!!'); // console.log(x);
 
   next();
 }); // adding time stemp to the request
 
 app.use(function (req, res, next) {
   req.requestTimee = new Date().toISOString();
-  console.log('This is the request header ', req.headers);
+  // console.log('This is the request header ', req.headers);
   next();
 }); // creating individual router of tours and users
 // 1) Create Router 2) Connect to the route 3) Use the router or call it

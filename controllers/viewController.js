@@ -31,7 +31,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
     if (!tour) {
         // return to global error handling by passing the message and statusCode-> AppError Class...
         // Dont forgate to call next() for jupming to next middleware..
-        console.log('This is from viewController and no tour find..');
+        // console.log('This is from viewController and no tour find..');
         return next(new AppError('There is No tour with that name!', 404));
     }
 
@@ -62,10 +62,10 @@ exports.getAccount = (req, res) => {
 // updating user email and password-> req sent from form element
 
 exports.updateUserData = catchAsync(async (req, res, next) => {
-    console.log(
-        'this is from viewcontroller and the data send for update through form is ',
-        req.body
-    );
+    // console.log(
+    //     'this is from viewcontroller and the data send for update through form is ',
+    //     req.body
+    // );
     const updatedUser = await User.findByIdAndUpdate(
         req.user.id,
         {

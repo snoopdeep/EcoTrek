@@ -9,7 +9,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     //1: GET CURRENTLY BOOKED TOURS
     const tour = await Tour.findById(req.params.tourId);
-    console.log('This is from the getCheckoutSession....');
+    // console.log('This is from the getCheckoutSession....');
 
     const product = await stripe.products.create({
         name: `${tour.name} Tour`,
@@ -56,7 +56,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 exports.createBookingCheckout = catchAsync(async (req, res, next) => {
     const { tour, user, price } = req.query;
     if (!tour && !user && !price) return next();
-    console.log('This is from createBookingCheckout.. and the new booking is going to create in db..');
+    // console.log('This is from createBookingCheckout.. and the new booking is going to create in db..');
     await Booking.create({ tour, user, price });
     // redirecting to root url directly to hide success_url
     res.redirect(req.originalUrl.split('?')[0]);

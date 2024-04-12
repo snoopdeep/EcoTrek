@@ -43,8 +43,8 @@ const sendErrorDev = (err, req, res) => {
     }
 };
 const sendErrorPro = (err,req, res) => {
-    console.log('this is sendErrorPro function');
-    console.log(req.originalUrl);
+    // console.log('this is sendErrorPro function');
+    // console.log(req.originalUrl);
     // A: API
     if (req.originalUrl.startsWith('/api')) {
         // Operational: Trusted Error-> send message to client,
@@ -85,19 +85,19 @@ const sendErrorPro = (err,req, res) => {
 };
 // global error handling middleware .. error is comming form AppErrorClass to handle here..
 module.exports = (err, req, res, next) => {
-    console.log('This is from errController: Error is ->');
-    console.log(err);
+    // console.log('This is from errController: Error is ->');
+    // console.log(err);
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
     if (process.env.NODE_ENV === 'development') {
-        console.log('this is from development err controller..');
+        // console.log('this is from development err controller..');
         sendErrorDev(err, req, res);
     } else if (process.env.NODE_ENV === 'production') {
-        console.log('this is from production err controlller..');
+        // console.log('this is from production err controlller..');
         // 1) invalid db id error-> mark it production error with a custom message;
         let error = { ...err };
         error.message = err.message;
-        console.log(error);
+        // console.log(error);
         // IF INVALID ID
         if (error.name === 'CastError') error = handleCastErrorDB(error);
         // IF DUPLICATE FIELDS

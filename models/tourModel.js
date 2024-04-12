@@ -180,7 +180,7 @@ tourSchema.post(/^find/, function (docs, next) {
 });
 //Populate guides in tours middleware
 tourSchema.pre(/^find/, function (next) {
-    console.log('this is populate middleware of tour model...');
+    // console.log('this is populate middleware of tour model...');
     this.populate({
         path: 'guides',
         select: '-__v -passwordChangedAt',

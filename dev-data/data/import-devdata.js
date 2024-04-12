@@ -7,7 +7,7 @@ const Tour = require('./../../models/tourModel');
 const User = require('./../../models/userModel');
 const Review = require('./../../models/reviewModel');
 
-console.log(typeof process.env.DATABASE);
+// console.log(typeof process.env.DATABASE);
 const DB = process.env.DATABASE.replace(
     '<PASSWORD>',
     process.env.DATABASE_PASSWORD

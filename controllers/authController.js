@@ -17,9 +17,9 @@ const signToken = (id) => {
 };
 
 const createSendToken = (user, statusCode, res) => {
-    console.log(
-        'This is create and send Token function from authController.js'
-    );
+    // console.log(
+    //     'This is create and send Token function from authController.js'
+    // );
     const token = signToken(user._id);
     const cookieOptions = {
         expires: new Date(
@@ -32,13 +32,13 @@ const createSendToken = (user, statusCode, res) => {
     // SENDING TOKEN THOUGH COOKIE
     if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
     res.cookie('jwt', token, cookieOptions);
-    console.log('This is the res after attaching cookie to it..', res.body);
+    // console.log('This is the res after attaching cookie to it..', res.body);
     // remove password from response
     user.password = undefined;
-    console.log(
-        'This is the res after removing response from response..',
-        res.body
-    );
+    // console.log(
+    //     'This is the res after removing response from response..',
+    //     res.body
+    // );
     res.status(statusCode).json({
         status: 'success',
         // sending token also in response coz postman will automatically fetch it form test script.. not a good way to send token but..
@@ -57,12 +57,12 @@ exports.signup = catchAsync(async (req, res, next) => {
         passwordChangeAt: req.body.passwordChangeAt,
         role: req.body.role,
     });
-    console.log('This is from signup middleware and newUser is ', newUser);
+    // console.log('This is from signup middleware and newUser is ', newUser);
     // SENDING A WELCOME EMAIL ON SINGUP -> url will point to profile page of user where he/she can upload photo as mentaion in template
-    console.log('this is from signup');
+    // console.log('this is from signup');
     const url = `${req.protocol}://${req.get('host')}/me`;
     await new Email(newUser, url).sendWelcome();
-    console.log('this is signup... modelCreate...');
+    // console.log('this is signup... modelCreate...');
     // console.log(req.body.passwordConfirm);
     // CREATING JWT TOKENS
     createSendToken(newUser, 202, res);
@@ -111,7 +111,7 @@ exports.signin = catchAsync(async (req, res, next) => {
 // to access a specifit route user must be login...
 exports.protect = catchAsync(async (req, res, next) => {
     let token;
-    console.log('This is from protect middleware..');
+    // console.log('This is from protect middleware..');
     //1: getting token and check if it exists or not
     if (
         req.headers.authorization &&
@@ -123,7 +123,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     else if (req.cookies.jwt) {
         token = req.cookies.jwt;
     }
-    console.log('This is from authorization middleware... token is->', token);
+    // console.log('This is from authorization middleware... token is->', token);
     if (!token) {
         return next(
             new Error(
@@ -140,7 +140,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
     //3:check if user still exits or not
     const currentUser = await User.findById(decoded.id);
-    console.log('This is from login middleware..');
+    // console.log('This is from login middleware..');
 
     if (!currentUser) {
         return next(
@@ -170,7 +170,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 // SIGNOUT : this will be called by axios and send to the api
 
 exports.logout = (req, res, next) => {
-    console.log('Hello from logOut middleware.. I am called by axios');
+    // console.log('Hello from logOut middleware.. I am called by axios');
     //1 override the cookie ie same name with different jwt token..
     res.cookie('jwt', 'thisisjwtTokenHeHeHe', {
         expires: new Date(Date.now() + 10 * 1000), // 10 sec tak ke bad delete ho jayegi// invalid.
@@ -200,10 +200,10 @@ exports.isLoggedIn = async (req, res, next) => {
     if (req.cookies.jwt) {
         try {
             token = req.cookies.jwt;
-            console.log(
-                'This is from isLoggedIn middleware... token from cookie is->',
-                token
-            );
+            // console.log(
+            //     'This is from isLoggedIn middleware... token from cookie is->',
+            //     token
+            // );
             if (!token) {
                 return next();
             }
@@ -216,9 +216,9 @@ exports.isLoggedIn = async (req, res, next) => {
             );
 
             //3:check if user still exits or not
-            console.log('decoded-> ', decoded);
+            // console.log('decoded-> ', decoded);
             const currentUser = await User.findById(decoded.id);
-            console.log('this is loggedIN middleware and current User is ->');
+            // console.log('this is loggedIN middleware and current User is ->');
             if (!currentUser) {
                 return next();
             }
@@ -241,7 +241,7 @@ exports.isLoggedIn = async (req, res, next) => {
 };
 
 exports.restrictTo = (...roles) => {
-    console.log([roles]);
+    // console.log([roles]);
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
             return next(
@@ -283,10 +283,10 @@ exports.forgetPassword = catchAsync(async (req, res, next) => {
     // });
 
     // USING MAIL CLASS TO SEND RESET TOKEN..
-    console.log(
-        'This is from forgetPassword middleware and resetUrl is ',
-        resetURL
-    );
+    // console.log(
+    //     'This is from forgetPassword middleware and resetUrl is ',
+    //     resetURL
+    // );
     await new Email(user, resetURL).sendResetPassword();
     res.status(200).json({
         status: 'success',
@@ -309,10 +309,10 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     if (!user) {
         return next(new AppError('Token is invalid or expired', 400));
     }
-    console.log(
-        'This is from the resetPassword middleware and user find is,',
-        user
-    );
+    // console.log(
+    //     'This is from the resetPassword middleware and user find is,',
+    //     user
+    // );
     user.password = req.body.password;
     user.passwordConfirm = req.body.passwordConfirm;
     user.passwordResetToken = undefined;
@@ -335,9 +335,9 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 //
 exports.updatePassword = catchAsync(async (req, res, next) => {
     //1: get user from collection (my current user is in req.user.. see authorization code for this)
-    console.log('This is from updataPassword middleware...');
+    // console.log('This is from updataPassword middleware...');
     const user = await User.findById(req.user.id).select('+password');
-    console.log('User is ->', user);
+    // console.log('User is ->', user);
     // for login we will add middleware to check so no need;
     // if (!user) {
     //     return next(
@@ -361,7 +361,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     user.password = req.body.password;
     user.passwordConfirm = req.body.passwordConfirm;
     await user.save();
-    console.log('This is after saving the new password to db..');
+    // console.log('This is after saving the new password to db..');
 
     //4: log in user back=> send jwt token
     createSendToken(user, 200, res);

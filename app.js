@@ -56,7 +56,7 @@ app.use('/api', limiter);
 
 // setting up my own middleware
 app.use((req, res, next) => {
-    console.log('Hello from the middleware!!!');
+    // console.log('Hello from the middleware!!!');
     // console.log(x);
     next();
 });
@@ -66,7 +66,7 @@ app.use((req, res, next) => {
     req.requestTimee = new Date().toISOString();
     // console.log('This is requrest ',req);
     // console.log('This is the request header ', req.headers);
-    console.log('This is the cookie from client request', req.cookies);
+    // console.log('This is the cookie from client request', req.cookies);
     next();
 });
 

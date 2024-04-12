@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema({
 
 // USING PRE_SAVE_MIDDLEWARE FOR PASSWORD ENCRYPTION
 userSchema.pre('save', async function (next) {
-    console.log('This is middleware password encryption....');
+    // console.log('This is middleware password encryption....');
     if (!this.isModified('password')) return next();
     this.password = await bcrypt.hash(this.password, 10);
     // i had validated in schema .. ie [password===passwordConfirm]
@@ -89,7 +89,7 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
             this.passwordChangeAt.getTime() / 1000,
             10
         );
-        console.log(JWTTimestamp, this.passwordChangeAt);
+        // console.log(JWTTimestamp, this.passwordChangeAt);
         return JWTTimestamp < changeTimestamp;
     }
     return false;
@@ -97,7 +97,7 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
 // CREATING INSTANCE METHOD FOR CREATING RESET TOKEN;
 userSchema.methods.createPasswordResetToken = function () {
     const resetToken = crypto.randomBytes(32).toString('hex');
-    console.log(resetToken);
+    // console.log(resetToken);
     this.passwordResetToken = crypto
         .createHash('sha256')
         .update(resetToken)

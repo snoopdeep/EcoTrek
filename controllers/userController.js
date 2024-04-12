@@ -41,8 +41,8 @@ const multerFilter = (req, file, cb) => {
 
 // MIDDLEWARE FOR RESIZING IMGAES..
 exports.resizeUserImgage = async(req, res, next) => {
-    console.log('This is req object received by resizeUserImages',req);
-    console.log('This is req.file-> ',req.file);
+    // console.log('This is req object received by resizeUserImages',req);
+    // console.log('This is req.file-> ',req.file);
     if (!req.file) {
         return next();
     }
@@ -52,7 +52,7 @@ exports.resizeUserImgage = async(req, res, next) => {
     // );
     // creating filename property with correct name ie user-ID-TimeStamp
     req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
-    console.log('filename-> ',req.file.filename);
+    // console.log('filename-> ',req.file.filename);
     await sharp(req.file.buffer)
         .resize(500, 500)
         .toFormat('jpeg')
@@ -66,7 +66,7 @@ const upload = multer({
     storage: multerStorage,
     fileFilter: multerFilter,
 });
-console.log('This is upload from multer..', upload);
+// console.log('This is upload from multer..', upload);
 
 // MIDDLEWARE FOR UPLOADING PHOTO TO THE DISK/MEMORY FROM API
 exports.uploadUserPhoto = upload.single('photo');
@@ -116,9 +116,9 @@ exports.getMe = (req, res, next) => {
 //UPDATE ME
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-    console.log('this is after uploadUserPhoto middleware');
-    console.log('req.file is ', req.file);
-    console.log('req.body is ', req.body);
+    // console.log('this is after uploadUserPhoto middleware');
+    // console.log('req.file is ', req.file);
+    // console.log('req.body is ', req.body);
 
     //1: user not allowed to change password to this root
     if (req.body.password || req.body.passwordConfirm) {

@@ -22,7 +22,7 @@ const bookBtn = document.getElementById('book-tour');
 // 1: SELECTING REQUIRED ELEMENTS FROM THE base.pug for login feature
 if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
-        console.log('You have clicked the login button...');
+        // console.log('You have clicked the login button...');
         e.preventDefault();
         const email = document.querySelector('#email').value;
         const password = document.querySelector('#password').value;
@@ -33,8 +33,8 @@ if (loginForm) {
 // 2: LOGOUT
 if (logOutBtn) {
     logOutBtn.addEventListener('click', () => {
-        console.log('logOutBtn clicked..');
-        console.log('message from inside of click event of logOutBtn');
+        // console.log('logOutBtn clicked..');
+        // console.log('message from inside of click event of logOutBtn');
         logout();
     });
 }
@@ -42,7 +42,7 @@ if (logOutBtn) {
 // 3: UPDATE USER(ME)
 if (updateUserForm) {
     updateUserForm.addEventListener('submit', (e) => {
-        console.log('Update user cliked...');
+        // console.log('Update user cliked...');
         e.preventDefault();
         const formData = new FormData();
         formData.append('name', document.getElementById('name').value);
@@ -50,8 +50,8 @@ if (updateUserForm) {
         formData.append('photo', document.getElementById('photo').files[0]);
         // const name = document.getElementById('name').value;
         // const email = document.getElementById('email').value;
-        console.log('FormData is ..', formData);
-        console.log('Submitted for updating user name and email..');
+        // console.log('FormData is ..', formData);
+        // console.log('Submitted for updating user name and email..');
         updateUser(formData);
     });
 }
@@ -63,7 +63,7 @@ if (updatePasswordForm) {
     // so that we execute the line afer finished that..
     // saving the password to db takes some time due to encryption process so let user know that something happingin in background..
     updatePasswordForm.addEventListener('submit', async (e) => {
-        console.log('Update Password clicked...');
+        // console.log('Update Password clicked...');
         e.preventDefault();
         document.querySelector('.saving--password--btn ').textContent =
             'Updating...';
@@ -72,7 +72,7 @@ if (updatePasswordForm) {
         const password = document.getElementById('password').value;
         const passwordConfirm =
             document.getElementById('password-confirm').value;
-        console.log(passwordCurrent, password, passwordConfirm);
+        // console.log(passwordCurrent, password, passwordConfirm);
         await updatePassword(passwordCurrent, password, passwordConfirm);
         document.querySelector('.saving--password--btn ').textContent =
             'Save Password';
@@ -81,13 +81,13 @@ if (updatePasswordForm) {
         document.getElementById('password-confirm').value = '';
     });
 }
-console.log('Hi from index.js');
+// console.log('Hi from index.js');
 //PAYMENT;
 if (bookBtn) {
-    console.log('Booked button is clicked...');
+    // console.log('Booked button is clicked...');
     bookBtn.addEventListener('click',async (e) => {
-        console.log('Booked button is clickedd...');
-        console.log(e.target);
+        // console.log('Booked button is clickedd...');
+        // console.log(e.target);
         e.target.textContent = 'Processing...';
         // const tourId = e.target.dataset.tourId;
         const { tourId } = e.target.dataset;

@@ -30,7 +30,7 @@ import axios from 'axios';
 import { showAlert } from './alert';
 
 export const bookTour = async (tourId) => {
-    console.log('Hello from the stripe.js this is bookTour...');
+    // console.log('Hello from the stripe.js this is bookTour...');
     try {
         // 1) Get checkout session from API
         const session = await axios({
@@ -38,7 +38,7 @@ export const bookTour = async (tourId) => {
             url: `/api/v1/bookings/checkoutSession/${tourId}`,
             withCredentials: true,
         });
-        console.log(session);
+        // console.log(session);
         window.setTimeout(() => {
             location.assign(session.data.session.url);
         }, 1500);
@@ -51,7 +51,7 @@ export const bookTour = async (tourId) => {
         //     sessionId: session.data.session.id,
         // });
     } catch (err) {
-        console.log(err);
+        // console.log(err);
         showAlert('error', err);
     }
 };
