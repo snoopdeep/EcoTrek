@@ -1,7 +1,9 @@
+const Booking = require('../models/bookingModel');
 const Tour = require('../models/tourModel');
 const User = require('../models/userModel');
 const AppError = require('../utils/AppError');
 const catchAsync = require('../utils/catchAsync');
+const factory = require('./handlerFactory');
 
 exports.getOverview = catchAsync(async (req, res, next) => {
     // 1: GET ALL TOURS DATA FROM COLLECTION
@@ -81,3 +83,23 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
         title: 'Your Account',
     });
 });
+
+// GETTING ALL BOOKED TOURS OF A USER
+exports.getMyTours = catchAsync(async (req, res, next) => {
+    // 1:find all booking doc corresponding to login user
+
+    const bookings = await Booking.find({ user: req.user.id });
+
+    // 2: get all the tour ids of all the documents find.. so it will be an array of tour id
+    const tourIds = bookings.map((el) => el.tour);
+    // 3: get all the tour by tour array from 2
+    const tours = await Tour.find({ _id: { $in: tourIds } });
+
+    // 4: render the overview page by tour find
+    res.status(200).render('overview', {
+        title: 'My Tours',
+        tours,
+    });
+});
+
+

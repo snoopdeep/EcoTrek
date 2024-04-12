@@ -3,6 +3,7 @@ import '@babel/polyfill';
 // importing login module
 import { login, logout } from './login';
 import { updateUser, updatePassword } from './updateSettings';
+import { bookTour } from './stripe';
 // console.log(login);
 // console.log(updateUser);
 
@@ -11,6 +12,7 @@ const loginForm = document.querySelector('.form--login');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const updateUserForm = document.querySelector('.form-user-data');
 const updatePasswordForm = document.querySelector('.form-user-settings');
+const bookBtn = document.getElementById('book-tour');
 // console.log(loginForm);
 // console.log(updateUserForm);
 
@@ -39,17 +41,16 @@ if (logOutBtn) {
 
 // 3: UPDATE USER(ME)
 if (updateUserForm) {
-    
     updateUserForm.addEventListener('submit', (e) => {
         console.log('Update user cliked...');
         e.preventDefault();
-        const formData= new FormData();
-        formData.append('name',document.getElementById('name').value);
-        formData.append('email',document.getElementById('email').value);
-        formData.append('photo',document.getElementById('photo').files[0]);
+        const formData = new FormData();
+        formData.append('name', document.getElementById('name').value);
+        formData.append('email', document.getElementById('email').value);
+        formData.append('photo', document.getElementById('photo').files[0]);
         // const name = document.getElementById('name').value;
         // const email = document.getElementById('email').value;
-        console.log('FormData is ..',formData);
+        console.log('FormData is ..', formData);
         console.log('Submitted for updating user name and email..');
         updateUser(formData);
     });
@@ -80,3 +81,23 @@ if (updatePasswordForm) {
         document.getElementById('password-confirm').value = '';
     });
 }
+console.log('Hi from index.js');
+//PAYMENT;
+if (bookBtn) {
+    console.log('Booked button is clicked...');
+    bookBtn.addEventListener('click',async (e) => {
+        console.log('Booked button is clickedd...');
+        console.log(e.target);
+        e.target.textContent = 'Processing...';
+        // const tourId = e.target.dataset.tourId;
+        const { tourId } = e.target.dataset;
+       await bookTour(tourId);
+    });
+}
+// if (bookBtn)
+// console.log('This is from bookBtn.. ');
+//   bookBtn.addEventListener('click', e => {
+//     e.target.textContent = 'Processing...';
+//     const { tourId } = e.target.dataset;
+//     bookTour(tourId);
+//   });

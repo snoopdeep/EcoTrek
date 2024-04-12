@@ -111,7 +111,7 @@ exports.signin = catchAsync(async (req, res, next) => {
 // to access a specifit route user must be login...
 exports.protect = catchAsync(async (req, res, next) => {
     let token;
-    console.log('This is executed');
+    console.log('This is from protect middleware..');
     //1: getting token and check if it exists or not
     if (
         req.headers.authorization &&
@@ -119,7 +119,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     ) {
         token = req.headers.authorization.split(' ')[1];
     }
-    // taking jwt from the cookies
+    // taking jwt from the cookies of browser..
     else if (req.cookies.jwt) {
         token = req.cookies.jwt;
     }
@@ -140,10 +140,8 @@ exports.protect = catchAsync(async (req, res, next) => {
 
     //3:check if user still exits or not
     const currentUser = await User.findById(decoded.id);
-    console.log(
-        'This is from login middleware.. current user is ->',
-        currentUser
-    );
+    console.log('This is from login middleware..');
+
     if (!currentUser) {
         return next(
             new Error('The user belonging to token no longer exist.', 401)
@@ -220,10 +218,7 @@ exports.isLoggedIn = async (req, res, next) => {
             //3:check if user still exits or not
             console.log('decoded-> ', decoded);
             const currentUser = await User.findById(decoded.id);
-            console.log(
-                'this is loggedIN middleware and current User is ->',
-                currentUser
-            );
+            console.log('this is loggedIN middleware and current User is ->');
             if (!currentUser) {
                 return next();
             }
@@ -288,7 +283,10 @@ exports.forgetPassword = catchAsync(async (req, res, next) => {
     // });
 
     // USING MAIL CLASS TO SEND RESET TOKEN..
-    console.log('This is from forgetPassword middleware and resetUrl is ',resetURL);
+    console.log(
+        'This is from forgetPassword middleware and resetUrl is ',
+        resetURL
+    );
     await new Email(user, resetURL).sendResetPassword();
     res.status(200).json({
         status: 'success',
@@ -311,7 +309,10 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     if (!user) {
         return next(new AppError('Token is invalid or expired', 400));
     }
-    console.log('This is from the resetPassword middleware and user find is,',user);
+    console.log(
+        'This is from the resetPassword middleware and user find is,',
+        user
+    );
     user.password = req.body.password;
     user.passwordConfirm = req.body.passwordConfirm;
     user.passwordResetToken = undefined;

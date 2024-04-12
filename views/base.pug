@@ -1,14 +1,17 @@
 doctype html 
 html 
   head
-    meta(charset='UTF-8')
-    //- meta (name='viewport' content='width=device-width, initial-scale=1.0') cant give space 
-    meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
-    // /path because it will automatically take the root url..
-    link(rel='stylesheet' href='/css/style.css')
-    link(rel='icon' type='/image/png' href='/img/favicon.png')
-    title Natours | #{title}
+  block head 
+      meta(charset='UTF-8')
+      //- meta (name='viewport' content='width=device-width, initial-scale=1.0') cant give space 
+      meta(name='viewport' content='width=device-width, initial-scale=1.0')
+      link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
+      // /path because it will automatically take the root url..
+      link(rel='stylesheet' href='/css/style.css')
+      link(rel='icon' type='/image/png' href='/img/favicon.png')
+      title Natours | #{title}
+  //- COPY FROM GITHUB
+  //- body(data-alert=`${alert ? alert : ''}`)      
 
   body 
     //HEADER
@@ -28,5 +31,7 @@ html
     // LINKING THIS TO bundle.js which has all the code and dependencies
     // index.js->import files/fuctions from the login.js -> then it will select the required elements from tempelete
     // and do required action and bundle into bundle.js from where i'm serving to you.. 
-    script(src="/js/bundle.js")
+    //- script(src="https://js.stripe.com/v3/")
+    //- script(src='https://js.stripe.com/v3/')
+    script(src='/js/bundle.js')
     //- script(src='/js/login.js')

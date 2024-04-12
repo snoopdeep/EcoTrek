@@ -7,11 +7,13 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes.js');
+const bookingRouter = require('./routes/bookingRoutes.js');
 
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controllers/errController');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const { contentSecurityPolicy } = require('helmet');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 
@@ -33,6 +35,9 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // HELMET MIDDLEWARE
 app.use(helmet());
+// app.use(helmet({ contentSecurityPolicy: false }));
+
+
 
 // MIDDLEWARES
 app.use(express.json());
@@ -73,6 +78,7 @@ app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/review', reviewRouter);
+app.use('/api/v1/bookings', bookingRouter);
 
 // DEFININING A MIDDLEWARE FOR UNWANTED/ UNDEFINED ROUTES/REQUEST
 app.all('*', (req, res, next) => {
