@@ -16,6 +16,7 @@ const helmet = require('helmet');
 const { contentSecurityPolicy } = require('helmet');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 // SETTING EXPRESS TEMPLETING ENGINE-> PUG
 
@@ -37,8 +38,6 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(helmet());
 // app.use(helmet({ contentSecurityPolicy: false }));
 
-
-
 // MIDDLEWARES
 app.use(express.json());
 if (process.env.NODE_ENV === 'development') {
@@ -53,6 +52,7 @@ const limiter = rateLimit({
     // store: ... , // Redis, Memcached, etc. See below.
 });
 app.use('/api', limiter);
+app.use(compression());
 
 // setting up my own middleware
 app.use((req, res, next) => {
