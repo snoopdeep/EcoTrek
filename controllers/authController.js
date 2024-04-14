@@ -110,6 +110,7 @@ exports.signin = catchAsync(async (req, res, next) => {
 // REQUEST AUTHORIZATION:
 // to access a specifit route user must be login...
 exports.protect = catchAsync(async (req, res, next) => {
+    console.log('Hello from the protect middleware..');
     let token;
     // console.log('This is from protect middleware..');
     //1: getting token and check if it exists or not
@@ -164,6 +165,10 @@ exports.protect = catchAsync(async (req, res, next) => {
     //5:THER IS LOGGEDIN USER
     // NOW SET user VARIABLE ON res.locals WHICH WILL BE ACCESSABLE EVERYWHERE IN PUG TEMPLATE
     res.locals.user = currentUser;
+    console.log('Hello from the protect middleware.. i am ending.. ');
+    console.log(currentUser);
+    console.log('res is -> ',req.user);
+    console.log('res is -> ',res.locals);
     next();
 });
 
@@ -241,6 +246,7 @@ exports.isLoggedIn = async (req, res, next) => {
 };
 
 exports.restrictTo = (...roles) => {
+    console.log('Hello from the restrict to middleware..');
     // console.log([roles]);
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {

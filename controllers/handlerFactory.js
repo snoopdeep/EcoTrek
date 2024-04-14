@@ -31,6 +31,7 @@ exports.deleteOne = (Model) =>
 // UPDATE FACTORY FUNCTION
 exports.updateOne = (Model) =>
     catchAsync(async (req, res, next) => {
+        console.log('Hello fromt the updateOne middleware of handleFactory.js...');
         const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
             runValidators: true,

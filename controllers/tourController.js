@@ -18,6 +18,8 @@ const multerStorage = multer.memoryStorage();
 //2: MULTER FILTER-> ALLOW ONLY IMAGES OF ALL FORMATE:
 
 const multerFilter = (req, file, cb) => {
+    console.log('This is multerFilter from tourController..');
+    console.log('File is -> ',file);
     if (file.mimetype.startsWith('image')) {
         cb(null, true);
     } else {
@@ -31,9 +33,10 @@ const multerFilter = (req, file, cb) => {
 // 3: MIDDLEWARE FOR RESIZING IMGES-> SHARP
 
 exports.resizeTourImages = async (req, res, next) => {
-    // console.log(req.files);
+    console.log('This is from resizeTourImages ...');
+    console.log(req.files);
     // if no coverimage of images=> move to next middleware
-    if (!req.files.imageCover || !req.files.images) {
+    if (!req.files||!req.files.imageCover || !req.files.images) {
         return next();
     }
     // 1: PROCESSING COVERIMAGE
