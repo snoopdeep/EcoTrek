@@ -11,19 +11,25 @@ const authController = require('../controllers/authController');
 // router.use(authController.isLoggedIn);
 
 // overview page route( this is the home route page)
-router.get('/',bookingController.createBookingCheckout, authController.isLoggedIn, viewController.getOverview);
+router.get(
+    '/',
+    bookingController.createBookingCheckout,
+    authController.isLoggedIn,
+    viewController.getOverview
+);
 // tour page route
 router.get('/tour/:slug', authController.isLoggedIn, viewController.getTour);
 // login route
 router.get('/login', authController.isLoggedIn, viewController.login);
+// signup route
+router.get('/signup', viewController.signup);
 // account route
 router.get('/me', authController.protect, viewController.getAccount);
 // rendering / getting all booked tours of a user
-router.get('/my-tours',authController.protect,viewController.getMyTours);
+router.get('/my-tours', authController.protect, viewController.getMyTours);
 // updating user name and email
 router
     .route('/submit-user-data')
     .post(authController.protect, viewController.updateUserData);
-    
 
 module.exports = router;

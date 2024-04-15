@@ -54,6 +54,13 @@ exports.login = (req, res) => {
     });
 };
 
+// SIGNUP
+exports.signup = (req, res) => {
+    res.status(200).render('signup', {
+        title: 'Sign Up',
+    });
+};
+
 // getAccount -> rendering getAccount page.
 exports.getAccount = (req, res) => {
     res.status(200).render('account', {
@@ -103,5 +110,3 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
         tours,
     });
 });
-
-

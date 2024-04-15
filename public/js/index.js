@@ -2,6 +2,7 @@ import '@babel/polyfill';
 
 // importing login module
 import { login, logout } from './login';
+import { signUp } from './signup';
 import { updateUser, updatePassword } from './updateSettings';
 import { bookTour } from './stripe';
 // console.log(login);
@@ -13,6 +14,8 @@ const logOutBtn = document.querySelector('.nav__el--logout');
 const updateUserForm = document.querySelector('.form-user-data');
 const updatePasswordForm = document.querySelector('.form-user-settings');
 const bookBtn = document.getElementById('book-tour');
+const signUpBtn = document.querySelector('.form--signup');
+
 // console.log(loginForm);
 // console.log(updateUserForm);
 
@@ -27,6 +30,21 @@ if (loginForm) {
         const email = document.querySelector('#email').value;
         const password = document.querySelector('#password').value;
         login(email, password);
+    });
+}
+
+// 1A: SIGN UP
+if (signUpBtn) {
+    signUpBtn.addEventListener('submit', (e) => {
+        console.log('Sign Up botton clicked....');
+        e.preventDefault();
+        // SIGN UP
+        const name = document.getElementById('nameSignup').value;
+        const email = document.getElementById('emailSignup').value;
+        const password = document.getElementById('password').value;
+        const passwordConfirm = document.getElementById('passwordConfirm').value;
+        console.log(name, email, password, passwordConfirm);
+        signUp(name, email, password, passwordConfirm);
     });
 }
 
@@ -85,13 +103,13 @@ if (updatePasswordForm) {
 //PAYMENT;
 if (bookBtn) {
     // console.log('Booked button is clicked...');
-    bookBtn.addEventListener('click',async (e) => {
+    bookBtn.addEventListener('click', async (e) => {
         // console.log('Booked button is clickedd...');
         // console.log(e.target);
         e.target.textContent = 'Processing...';
         // const tourId = e.target.dataset.tourId;
         const { tourId } = e.target.dataset;
-       await bookTour(tourId);
+        await bookTour(tourId);
     });
 }
 // if (bookBtn)
