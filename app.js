@@ -56,7 +56,7 @@ app.use(compression());
 
 // setting up my own middleware
 app.use((req, res, next) => {
-    console.log('Hello from the middleware!!!');
+    console.log('Hello from the first middleware!!!');
     // console.log(x);
     next();
 });

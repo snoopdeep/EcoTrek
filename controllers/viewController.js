@@ -6,8 +6,10 @@ const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
 
 exports.getOverview = catchAsync(async (req, res, next) => {
+    console.log('Hi from the getOverview middleware viewController.js..');
     // 1: GET ALL TOURS DATA FROM COLLECTION
     const tours = await Tour.find();
+    // console.log(tours);
 
     // 2: BUILD TEMPLATE-> in overview.pug
 

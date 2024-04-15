@@ -8,10 +8,10 @@ const DB = process.env.DATABASE.replace(
     process.env.DATABASE_PASSWORD
 );
 // HANDLING UNCAUGHT EXPECTIONS
-process.on('uncaughtException',err=>{
-    console.log(err.name,err.message);
+process.on('uncaughtException', (err) => {
+    console.log(err.name, err.message);
     process.exit(1);
-})
+});
 // console.log(x);
 
 mongoose
@@ -41,7 +41,7 @@ mongoose
 //     .catch((err) => console.log(err));
 
 // start the server
-const port = process.env.PORT||5000;
+const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
     console.log('Server is ready to take requests....');
 });
